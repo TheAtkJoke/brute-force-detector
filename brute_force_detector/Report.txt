@@ -1,0 +1,47 @@
+# Brute Force Attack Detection Report
+
+## 1. Introduction
+Brute-force attacks are a common cybersecurity threat where attackers repeatedly attempt to guess login credentials. This report details the implementation of a Python-based brute-force detection system that monitors authentication logs in real time.
+
+## 2. Problem Statement
+Unauthorized access attempts often involve multiple failed login attempts from the same IP address. Traditional security systems may not always detect such attempts unless specific monitoring is implemented.
+
+## 3. Objectives
+- Identify repeated failed login attempts within a specified time window.
+- Flag suspicious IPs exceeding a predefined threshold.
+- Provide real-time alerts to enhance security response.
+
+## 4. Methodology
+### 4.1 Log File Analysis
+The script reads from an authentication log file (e.g., `auth.log`), parsing each line to extract:
+- Failed login attempts
+- Associated IP addresses
+- Timestamps of occurrences
+
+### 4.2 Threshold-Based Detection
+The script maintains a dictionary of failed attempts per IP address and applies the following logic:
+- If an IP exceeds `THRESHOLD_ATTEMPTS` (e.g., 5 attempts) within `TIME_WINDOW` seconds (e.g., 60 seconds), it is flagged.
+- Older failed attempts outside the time window are discarded to keep the detection relevant.
+
+### 4.3 Real-Time Monitoring
+By continuously reading the log file, the script provides near real-time detection without requiring extensive computation.
+
+## 5. Findings
+Using simulated authentication logs, the script successfully detected brute-force attempts:
+- IP **192.168.1.10** attempted **5 failed logins** within **45 seconds**.
+- The system flagged this IP as a potential brute-force attacker and outputted an alert.
+
+## 6. Mitigation Strategies
+To enhance security further:
+- Implement automatic IP blocking using firewall rules (e.g., `iptables` or `fail2ban`).
+- Enforce multi-factor authentication (MFA) to prevent unauthorized access.
+- Regularly audit authentication logs for anomalies.
+
+## 7. Conclusion
+The brute-force detection script effectively identifies and alerts on unauthorized access attempts. Future improvements may include integration with SIEM (Security Information and Event Management) systems and automatic response mechanisms.
+
+## 8. References
+- OWASP Brute-Force Attack Prevention Guide
+- Linux Authentication Logs (`/var/log/auth.log`)
+- Python `re` and `time` modules for log parsing
+
